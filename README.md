@@ -4,6 +4,8 @@
 
 Make an application that has integration with the CityBikes API https://api.citybik.es/v2/ following requirements
 
+## Do not Fork this, Clone !!!
+
 ### 1) Store only the necessary data in the Database
 
 ### 2) The user can view all access points in Brazil
