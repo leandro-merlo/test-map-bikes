@@ -10,9 +10,6 @@ RUN echo "root:1010"|chpasswd
 
 RUN apt-get update
 
-RUN pecl install xdebug && docker-php-ext-enable xdebug
-
-
 RUN apt-get install -y \
     git \
     curl \
@@ -21,7 +18,6 @@ RUN apt-get install -y \
     libxml2-dev \
     zip \
     unzip
-
 
 # Install node LTS version 
 RUN curl -sL https://deb.nodesource.com/setup_14.x | bash -
