@@ -43,6 +43,7 @@ class BikeApiConsumerService {
     }
 
     static public function getBrazilianPlaces(){
+        Place::truncate();
         $brazilianNetworks = self::getBrazilianNetworksData(['href']);
         $places = [];
         foreach ($brazilianNetworks as $bn) {
@@ -51,6 +52,7 @@ class BikeApiConsumerService {
             $network = $response->collect()->get('network');
             $stations = $network['stations'];
             collect($stations)->map(function($station) use ($network, &$places) {
+                // This avoids duplicated data
                 $exists = Place::where('name', $station['name'])->first();
                 $place_to_save = $exists ?? new Place();
                 self::updatePlace($place_to_save, $station, $network);

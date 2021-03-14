@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\PlacesController;
 use App\Http\Controllers\TestController;
 use Illuminate\Support\Facades\Route;
 
@@ -14,8 +15,9 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
-});
+Route::get('/', [PlacesController::class, 'index'])->name('places');
+Route::get('/nearest-place', [PlacesController::class, 'nearestPlace'])->name('nearest-place');
 
 Route::get('test', [TestController::class, 'test']);
+Route::get('nearest', [TestController::class, 'nearest']);
+Route::get('all-places', [TestController::class, 'allPlaces']);
