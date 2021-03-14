@@ -31,7 +31,6 @@ services:
       && php artisan bikes:update"
     depends_on:
       - mysql
-      - web
 
   mysql:
     image: mysql:8.0.22
