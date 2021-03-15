@@ -37,6 +37,7 @@ Interface: Table search results, puts only what you think necessary the user
 ```sh
 $ docker-compose build
 $ docker-compose up -d
+$ docker-compose exec app bash -c /tmp/after-start.sh
 ```
 - Access ```localhost:8000```
 
