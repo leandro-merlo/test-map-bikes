@@ -33,10 +33,10 @@
                     </div>
                     <div class="row justify-content-start">
                         <div class="col-4">
-                            City
+                            Location
                         </div>
                         <div class="col-*">
-                            {{ $nearest->city }}
+                            {{ $nearest->city }} / {{ $nearest->country }}
                         </div>
                     </div>
                     <div class="row justify-content-start">
@@ -83,7 +83,7 @@
             <table class="table table-striped">
                 <thead class="thead-dark">
                     <th>Name</th>
-                    <th>City</th>
+                    <th>Location</th>
                     <th>Distance (in Km)</th>
                     <th>Free Bikes</th>
                 </thead>
@@ -91,7 +91,7 @@
                     @foreach ($places as $place)
                         <tr>
                             <td>{{ $place->name }}</td>
-                            <td>{{ $place->city }}</td>
+                            <td>{{ $place->city }} / {{ $place->country }}</td>
                             <td>{{ number_format($place->distance, 1) }}
                             <td>{{ $place->free_bikes }}</td>
                         </tr>

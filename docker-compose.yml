@@ -4,7 +4,7 @@ services:
   mysql:
     image: mysql:8.0.22
     ports:
-      - 3306:3306
+      - 33306:3306
     volumes:
       - ./mysql/mysql-data:/var/lib/mysql
     environment: 
