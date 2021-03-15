@@ -21,7 +21,7 @@ class BikeApiConsumerService {
         if (!empty($parameters)) {
             $queryString = "?fields=" . implode(',', $parameters);
         }
-        $response = Http::get(BikeApiConsumerService::BASE_API_URL . BikeApiConsumerService::NETWORKS_ENDPOINT . $queryString );
+        $response = Http::get(BikeApiConsumerService::BASE_API_URL . BikeApiConsumerService::NETWORKS_ENDPOINT . $queryString);
         return $response->collect()->get('networks');
     }
 
@@ -31,33 +31,29 @@ class BikeApiConsumerService {
         }
         $data = self::getNetworks($parameters);
         $data = collect($data)->reject(function($network){
-            return $network['location']['country'] != 'BR';
+            return !array_key_exists('location', $network) ? true : $network['location']['country'] != 'BR';
         });
-        if (!empty($parameters) && !array_key_exists('location', $parameters)) {
-            $data = collect($data)->map(function($network){
-                unset($network['location']);
-                return $network;
-            });
-        }
         return $data->toArray();
     }
 
     static public function getBrazilianPlaces(){
         Place::truncate();
-        $brazilianNetworks = self::getBrazilianNetworksData(['href']);
+        $brazilianNetworks = self::getBrazilianNetworksData(['href', 'location']);
         $places = [];
         foreach ($brazilianNetworks as $bn) {
             $queryString = "?fields=stations,location,id";
-            $response = Http::get(BikeApiConsumerService::BASE_API_URL . $bn['href'] . $queryString );
+            $response = Http::get(BikeApiConsumerService::BASE_API_URL . $bn['href'] . $queryString);
             $network = $response->collect()->get('network');
             $stations = $network['stations'];
             collect($stations)->map(function($station) use ($network, &$places) {
                 // This avoids duplicated data
                 $exists = Place::where('name', $station['name'])->first();
                 $place_to_save = $exists ?? new Place();
-                self::updatePlace($place_to_save, $station, $network);
-                $place_to_save->save();
-                $places[] = $place_to_save;
+                if (array_key_exists('location', $network)) {
+                    self::updatePlace($place_to_save, $station, $network);
+                    $place_to_save->save();
+                    $places[] = $place_to_save;
+                }
             });
         }
         return $places;

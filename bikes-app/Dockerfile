@@ -40,8 +40,8 @@ RUN mkdir -p /home/$user/.composer && \
 # Clear cache
 RUN apt-get clean && rm -rf /var/lib/apt/lists/*
 
-
 # Set working directory
 WORKDIR /var/www/html
 
 USER $user
+
